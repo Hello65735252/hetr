@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Логист-Транс | Главная</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="inde.css">
+</head>
+<body>
+  <div class="wrapper">
+    <header class="header">
+      <div class="header-inner wrapper">
+        <div class="logo">ЛОГИСТ <span>ТРАНС</span></div>
+        <nav class="nav">
+          <a id="navHome" class="active">Главная</a>
+          <a id="navTrackingPage">Трекинг</a>
+          <a id="navTariffsPage">Тарифы</a>
+          <a id="navContacts">Контакты</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="homePage">
+      <section class="about-section">
+        <h2>О компании</h2>
+        <div class="about-text">
+          <p><strong>Логист-Транс</strong> — надёжный партнёр в сфере грузоперевозок по России и СНГ. Работаем с 2012 года, перевезли более 150 000 тонн грузов. Современный автопарк, спутниковый мониторинг, страхование.</p>
+        </div>
+      </section>
+
+      <div class="calc-track-grid">
+        <div class="card">
+          <h3>Рассчитать доставку</h3>
+          <label>Откуда</label>
+          <select id="fromCityMain">
+            <option>Санкт-Петербург</option>
+            <option>Москва</option>
+            <option>Новосибирск</option>
+          </select>
+          <label>Куда</label>
+          <select id="toCityMain">
+            <option>Москва</option>
+            <option>Санкт-Петербург</option>
+            <option>Новосибирск</option>
+          </select>
+          <div class="inline-flex">
+            <div><label>Вес (кг)</label><input type="number" id="weightMain" value="5" min="1"></div>
+            <div><label>Размер</label>
+              <select id="sizeMain">
+                <option value="конверт">Конверт (34x27x2)</option>
+                <option value="коробS">Короб S (23x19x10)</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-block" id="calcMainBtn">Рассчитать</button>
+          <div class="result-box" id="calcMainResult">Ориентировочная стоимость: 0 руб.</div>
+        </div>
+
+        <div class="card">
+          <h3>Отследить посылку</h3>
+          <label>Номер заказа</label>
+          <input type="text" id="trackInputMain" placeholder="LOG-2026-003" value="LOG-2026-003">
+          <button class="btn btn-block" id="trackMainBtn">Быстрый статус</button>
+          <div class="result-box" id="trackMainResult">
+            <span class="track-status in-transit">В пути</span> Москва → Санкт-Петербург
+          </div>
+          <button class="btn" id="goFullTrackingFromMain" style="margin-top:12px; background:#1f3350;">📦 Детальное передвижение →</button>
+        </div>
+      </div>
+
+      <section class="buyer-section">
+        <h2>Для покупателей</h2>
+        <div class="buyer-grid">
+          <div class="buyer-card"><h4>Оплата при получении</h4><p>Наличными или картой при получении.</p></div>
+          <div class="buyer-card"><h4>Возврат товара</h4><p>14 дней на возврат, бесплатно.</p></div>
+          <div class="buyer-card"><h4>Примерка</h4><p>Примерьте перед покупкой.</p></div>
+        </div>
+      </section>
+
+      <section class="tariffs-section">
+        <div class="tariffs-header">
+          <h3>📋 Тарифы (выберите направление)</h3>
+          <button class="btn" id="goTariffsFromHome">Все 8 тарифов →</button>
+        </div>
+        <label>Выберите направление для быстрой оценки</label>
+        <select id="tariffSelectMain">
+          <option value="0">Москва – Санкт-Петербург</option>
+          <option value="1">Москва – Екатеринбург</option>
+          <option value="2">СПб – Новосибирск</option>
+          <option value="3">Москва – Казань</option>
+          <option value="4">Краснодар – Москва</option>
+          <option value="5">Екатеринбург – Новосибирск</option>
+          <option value="6">Москва – Владивосток</option>
+          <option value="7">СПб – Калининград</option>
+        </select>
+        <div id="tariffDetailMain" class="result-box">
+          до 500 кг: 9 500 ₽ | 500–1500 кг: 14 200 ₽ | от 1500 кг: 18 900 ₽ | Срок: 1–2 дня
+        </div>
+      </section>
+
+      <section class="contact-section">
+        <h2>Свяжитесь с нами</h2>
+        <div class="contact-grid">
+          <div>
+            <p><strong>Телефон:</strong> 8 (800) 555-23-23</p>
+            <p><strong>Email:</strong> info@logistrans.ru</p>
+            <p><strong>Адрес:</strong> г. Москва, ул. Логистов, д. 12</p>
+            <div class="map-container" id="homeBranchesMap"></div>
+          </div>
+          <div>
+            <label>Ваше имя</label><input type="text" placeholder="Иван Иванов">
+            <label>Email</label><input type="text" placeholder="example@mail.ru">
+            <label>Сообщение</label><textarea rows="3" placeholder="Опишите задачу..."></textarea>
+            <button class="btn">Отправить</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <main id="tariffsPage" style="display: none;">
+      <div class="card">
+        <h3>📦 Все тарифы (8 направлений)</h3>
+        <div class="table-wrap">
+          <table id="tariffsFullTable">
+            <thead><tr><th>Направление</th><th>до 500 кг</th><th>500–1500 кг</th><th>от 1500 кг</th><th>Срок</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p>Скидки постоянным клиентам до 12%.</p>
+        <button class="btn" id="backToHomeFromTariffs">← На главную</button>
+      </div>
+    </main>
+
+    <main id="trackingDetailPage" style="display: none;">
+      <div class="card">
+        <h3>📍 Детальное передвижение заказа</h3>
+        <label>Номер заказа</label>
+        <div class="tracking-search">
+          <input type="text" id="detailTrackInput" value="LOG-2026-003" placeholder="LOG-2026-003">
+          <button class="btn" id="detailTrackBtn">Показать</button>
+        </div>
+        <div class="map-container" id="trackingMap"></div>
+        <div class="timeline" id="timelineContainer"></div>
+        <button class="btn" id="backToHomeFromTracking">← На главную</button>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="wrapper footer-grid">
+        <div><h4>ЛОГИСТ ТРАНС</h4><p>Перевозки с 2012 года.</p></div>
+        <div><h4>Ссылки</h4><a id="footerTariffs">Тарифы</a><a id="footerTracking">Трекинг</a></div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="inde.js"></script>
+</body>
+</html>
